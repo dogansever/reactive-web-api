@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/employee/v2")
 @AllArgsConstructor
 public class EmployeeController {
 
@@ -22,12 +22,12 @@ public class EmployeeController {
     private final EmployeeMapper employeeMapper;
 
     @GetMapping("/{id}")
-    private Mono<EmployeeEntity> findById(@PathVariable String id) {
+    public Mono<EmployeeEntity> findById(@PathVariable String id) {
         return employeeRepository.findById(id);
     }
 
     @GetMapping
-    private Flux<EmployeeEntity> findAll() {
+    public Flux<EmployeeEntity> findAll() {
         return employeeRepository.findAll();
     }
 
@@ -38,8 +38,8 @@ public class EmployeeController {
         return employeeRepository.save(employeeMapper.toEntity(dto));
     }
 
-    @GetMapping("/v1")
-    private EmployeeEntity findByName(@RequestParam(defaultValue = "Mock", required = false) String name) {
+    @GetMapping("mock")
+    public EmployeeEntity findByName(@RequestParam(defaultValue = "Mock", required = false) String name) {
         return EmployeeEntity.builder().name(name).build();
     }
 }
